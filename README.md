@@ -20,7 +20,7 @@ $qb = new \SIG\DB\SQLBuilder();
                 ->join('expressao')         // opcional: quando necessário joins
                 ->limit('qtd')              // opcional: quando necessário limitar o conteúdo
                 ->orderby('expressao')      // opcional: quando necessário ordenação
-                ->where('condicao')        // opcional: quando necessário uma condição       
+                ->where('condicao')         // opcional: quando necessário uma condição       
                 ->select();
 ```
 
