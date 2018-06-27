@@ -6,7 +6,6 @@ Repósitório com conexão e SQLBuilder simples em PDO para inicio de modificaç
 
 * Repósitorio dedicado as modificações nas consultas e regras de negocio do SIG
 * 0.1
-* [Repositório no Bitbucket](https://bitbucket.org/wsitebrasil/pdo-connection-sqlbuilder)
 * Padronização de código com base nas PSR1, PSR2 e PSR4 favor mantê-la
 
 ### Modo de Uso ###
@@ -14,7 +13,7 @@ Repósitório com conexão e SQLBuilder simples em PDO para inicio de modificaç
 * Exemplo SELECT
 ```php
 $qb = new \SIG\DB\SQLBuilder();
-    $content = $qb
+$content = $qb
                 ->table('table_name')
                 ->fields(['*'])             // opcional: array de campos ou a emissão para * 
                 ->join('expressao')         // opcional: quando necessário joins
