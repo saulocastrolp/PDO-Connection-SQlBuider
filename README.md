@@ -7,6 +7,7 @@ Repósitório com conexão e SQLBuilder simples em PDO para inicio de modificaç
 * Repósitorio dedicado as modificações nas consultas e regras de negocio do SIG
 * 0.1
 * [Repositório no Bitbucket](https://bitbucket.org/wsitebrasil/pdo-connection-sqlbuilder)
+* Padronização de código com base nas PSR1, PSR2 e PSR4 favor mantê-la
 
 ### Modo de Uso ###
 
