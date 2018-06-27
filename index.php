@@ -7,7 +7,7 @@ require_once 'class/ConnectionDB.class.php';
 require_once 'class/SQLBuilder.class.php';
 
 try {
-    $qb = new DB\SQLBuilder();
+    $qb = new \SIG\DB\SQLBuilder();
 
     $content = $qb
                 ->table('sig_conteudos')

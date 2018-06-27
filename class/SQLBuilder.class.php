@@ -6,10 +6,11 @@
  * Time: 01:38
  */
 
-namespace DB;
+namespace SIG\DB;
 
 
-class SQLBuilder extends ConnectionDB {
+class SQLBuilder extends ConnectionDB
+{
 
     /**
      * @var array
@@ -20,26 +21,33 @@ class SQLBuilder extends ConnectionDB {
      * @param $arguments
      * @return $this
      */
-    function __call($name, $arguments) {
+    function __call($name, $arguments)
+    {
+
         $clausule = $arguments[0];
         if (count($arguments) > 1) {
             $clausule = $arguments;
         }
         $this->clausules[strtolower($name)] = $clausule;
         return $this;
+
     }
 
     /**
      * QueryBuilder constructor.
      * @internal param array $options
      */
-    public function __construct() {}
+    public function __construct()
+    {
+
+    }
 
     /**
      * @param array $values
      * @return string
      */
-    public function insert($values) {
+    public function insert($values)
+    {
 
         // recupera o nome da tabela
         // ou deixa uma marcação para mostrar que faltou informar esse campo
@@ -66,13 +74,15 @@ class SQLBuilder extends ConnectionDB {
         // junta o comando
         $sql = implode(' ', $command);
         return $this->executeInsert($sql, $values);
+
     }
 
     /**
      * @param $values
      * @return string | array
      */
-    public function select($values = []) {
+    public function select($values = [])
+    {
 
         // recupera o nome da tabela
         // ou deixa uma marcação para mostrar que faltou informar esse campo
@@ -114,7 +124,8 @@ class SQLBuilder extends ConnectionDB {
                 'separator' => ',',
             ],
         ];
-        foreach($clausules as $key => $clausule) {
+
+        foreach ($clausules as $key => $clausule) {
             if (isset($this->clausules[$key])) {
                 $value = $this->clausules[$key];
                 if (is_array($value)) {
@@ -128,6 +139,7 @@ class SQLBuilder extends ConnectionDB {
         // junta o comando
         $sql = implode(' ', $command) . " ;";
         return $this->executeSelect($sql, $values);
+
     }
 
     /**
@@ -135,7 +147,8 @@ class SQLBuilder extends ConnectionDB {
      * @param $filters
      * @return int
      */
-    public function update($values, $filters = []) {
+    public function update($values, $filters = [])
+    {
 
         // recupera o nome da tabela
         // ou deixa uma marcação para mostrar que faltou informar esse campo
@@ -165,7 +178,7 @@ class SQLBuilder extends ConnectionDB {
                 'separator' => ' ',
             ]
         ];
-        foreach($clausules as $key => $clausule) {
+        foreach ($clausules as $key => $clausule) {
             if (isset($this->clausules[$key])) {
                 $value = $this->clausules[$key];
                 if (is_array($value)) {
@@ -179,13 +192,15 @@ class SQLBuilder extends ConnectionDB {
         // junta o comando
         $sql = implode(' ', $command);
         return $this->executeUpdate($sql, array_merge($values, $filters));
+
     }
 
     /**
      * @param $filters
      * @return int
      */
-    public function delete($filters) {
+    public function delete($filters)
+    {
 
         // recupera o nome da tabela
         // ou deixa uma marcação para mostrar que faltou informar esse campo
@@ -203,7 +218,7 @@ class SQLBuilder extends ConnectionDB {
                 'separator' => ' ',
             ]
         ];
-        foreach($clausules as $key => $clausule) {
+        foreach ($clausules as $key => $clausule) {
             if (isset($this->clausules[$key])) {
                 $value = $this->clausules[$key];
                 if (is_array($value)) {
@@ -217,6 +232,7 @@ class SQLBuilder extends ConnectionDB {
         // junta o comando
         $sql = implode(' ', $command);
         return $this->executeDelete($sql, $filters);
+
     }
 
 }

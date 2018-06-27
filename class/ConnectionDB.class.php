@@ -6,13 +6,14 @@
  * Time: 22:58
  */
 
-namespace DB;
+namespace SIG\DB;
 
 
 use Exception;
 use PDO;
 
-class ConnectionDB {
+class ConnectionDB
+{
 
     private static $connection;
     private static $arq_cfg = 'config/config.ini';
@@ -21,11 +22,20 @@ class ConnectionDB {
      * Singleton: Método construtor privado para impedir classe de gerar instâncias
      *
      */
-    private function __construct() {}
+    private function __construct()
+    {
 
-    private function __clone() {}
+    }
 
-    private function __wakeup() {}
+    private function __clone()
+    {
+
+    }
+
+    private function __wakeup()
+    {
+
+    }
 
     /**
      * Método para montar a strig de conexão PDO
@@ -33,9 +43,10 @@ class ConnectionDB {
      * @throws Exception
      * @internal param array $dados
      */
-    private static function make(): PDO {
+    private static function make(): PDO
+    {
 
-        if(file_exists(self::$arq_cfg)) {
+        if (file_exists(self::$arq_cfg)) {
             $dados = parse_ini_file(self::$arq_cfg, true)['db'];
         } else {
             throw new Exception('Erro: Arquivo não encontrado');
@@ -49,7 +60,7 @@ class ConnectionDB {
         $server     = isset($dados['server']) ? $dados['server'] : null;
         $port       = isset($dados['port']) ? $dados['port'] : null;
 
-        if(!is_null($sgdb)) {
+        if (!is_null($sgdb)) {
             // selecionar db - criar string de conexão
             switch (strtoupper($sgdb)) {
                 case 'MYSQL' : $port = isset($port) ? $port : 3306 ;
@@ -76,25 +87,30 @@ class ConnectionDB {
         } else {
             throw new Exception('Erro: tipo de db de dados não informado');
         }
+
     }
 
     /**
      * Método estático para retorno da instância com conexão estabelecida
      * @return PDO
      */
-    public static function getInstance(): PDO {
+    public static function getInstance(): PDO
+    {
+
         if(self::$connection == null) {
             self::$connection = self::make();
             self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             self::$connection->exec("set names utf8");
         }
         return self::$connection;
+
     }
 
     /**
      * Método para encerrar conexão com a base de dados
      */
-    public static function close(): void {
+    public static function close(): void
+    {
 
         if (self::$connection !== null)
             self::$connection = null;
@@ -104,8 +120,11 @@ class ConnectionDB {
      * @param $sql
      * @return \PDOStatement
      */
-    private final function statement($sql) {
+    private final function statement($sql)
+    {
+
         return self::getInstance()->prepare($sql);
+
     }
 
     /**
@@ -113,12 +132,15 @@ class ConnectionDB {
      * @param array $values
      * @return string
      */
-    protected final function executeInsert($sql, array $values) {
+    protected final function executeInsert($sql, array $values)
+    {
+
         $statement = $this->statement($sql);
         if ($statement && $statement->execute(array_values($values))) {
             return self::getInstance()->lastInsertId();
         }
         return null;
+
     }
 
     /**
@@ -126,12 +148,15 @@ class ConnectionDB {
      * @param array $values
      * @return array
      */
-    protected final function executeSelect($sql, array $values) {
+    protected final function executeSelect($sql, array $values)
+    {
+
         $statement = $this->statement($sql);
         if ($statement && $statement->execute(array_values($values))) {
             return $statement->fetchAll(PDO::FETCH_OBJ);
         }
         return null;
+
     }
 
     /**
@@ -139,8 +164,11 @@ class ConnectionDB {
      * @param array $values
      * @return int
      */
-    protected final function executeUpdate($sql, array $values) {
+    protected final function executeUpdate($sql, array $values)
+    {
+
         return $this->execute($sql, $values);
+
     }
 
     /**
@@ -148,8 +176,11 @@ class ConnectionDB {
      * @param array $values
      * @return int
      */
-    protected final function executeDelete($sql, array $values) {
+    protected final function executeDelete($sql, array $values)
+    {
+
         return $this->execute($sql, $values);
+
     }
 
     /**
@@ -157,12 +188,15 @@ class ConnectionDB {
      * @param array $values
      * @return int|null
      */
-    protected final function execute($sql, array $values) {
+    protected final function execute($sql, array $values)
+    {
+
         $statement = $this->statement($sql);
         if ($statement && $statement->execute(array_values($values))) {
             return $statement->rowCount();
         }
         return null;
+
     }
 
 }
